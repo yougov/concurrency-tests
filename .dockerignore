@@ -1,0 +1,7 @@
+*.py[cdo]
+.gitignore
+.env
+logs/
+env/
+.venv/
+venv/

@@ -1,0 +1,18 @@
+services:
+  uwsgi:
+    build: .
+    ports:
+      - "8101:8101"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-uwsgi
+  nginx:
+    image: nginx
+    volumes:
+      - ./fixtures/:/usr/share/nginx/html:ro
+    ports:
+      - "8100:80"

@@ -1,0 +1,9 @@
+fastapi
+flask
+gevent
+httpx
+orjson
+pip-tools
+requests
+uvicorn
+uwsgi

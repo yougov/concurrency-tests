@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import time
+
 import stacks.async_monkey_patch  # noqa
 from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 
@@ -20,6 +22,7 @@ def fetch_data(url: str) -> JsonDict:
 
 @app.route('/data')
 def data():
+    start = time.time()
     final_data: list[JsonDict] = []
     with ThreadPoolExecutor(len(URLS)) as executor:
         futures: list[Future] = [
@@ -27,6 +30,8 @@ def data():
         ]
         for future in as_completed(futures):
             final_data.append(future.result())
+    elapsed = time.time() - start
+    print('Took', elapsed, 'seconds to gather data')
 
     response = make_response(json.dumps(final_data))
     response.headers['Content-Type'] = 'application/json'

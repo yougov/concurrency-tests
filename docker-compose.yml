@@ -1,4 +1,5 @@
 services:
+
   uwsgi:
     build: .
     ports:
@@ -10,8 +11,23 @@ services:
     depends_on:
       - nginx
     command: make run-uwsgi
+
+  fastapi:
+    build: .
+    ports:
+      - "8102:8102"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-fastapi
+
   nginx:
     image: nginx
+    logging:
+      driver: none
     volumes:
       - ./fixtures/:/usr/share/nginx/html:ro
     ports:

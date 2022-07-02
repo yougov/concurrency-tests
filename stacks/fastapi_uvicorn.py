@@ -11,12 +11,12 @@ from stacks.base import JsonDict, URLS
 
 
 app = FastAPI()
+client = httpx.AsyncClient()
 
 
 async def fetch_data(url: str) -> JsonDict:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url)
-        return json.loads(response.content)
+    response = await client.get(url)
+    return json.loads(response.content)
 
 
 @app.get('/data', response_class=ORJSONResponse)

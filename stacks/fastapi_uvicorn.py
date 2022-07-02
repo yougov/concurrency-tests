@@ -1,7 +1,7 @@
 import asyncio
 import time
 
-import httpx
+import aiohttp
 from fastapi import FastAPI
 
 import orjson as json
@@ -11,12 +11,12 @@ from stacks.base import JsonDict, URLS
 
 
 app = FastAPI()
-client = httpx.AsyncClient()
+session = aiohttp.ClientSession()
 
 
 async def fetch_data(url: str) -> JsonDict:
-    response = await client.get(url)
-    return json.loads(response.content)
+    async with session.get(url) as response:
+        return json.loads(await response.read())
 
 
 @app.get('/data', response_class=ORJSONResponse)

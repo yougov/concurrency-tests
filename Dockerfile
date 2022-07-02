@@ -9,6 +9,9 @@ RUN apt update && \
     libxml2-dev \
     libxslt1-dev \
     python3-pip \
+    curl \
+    telnet \
+    htop \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONPATH=/app

@@ -1,3 +1,4 @@
+aiohttp[speedups]
 cython
 fastapi
 flask

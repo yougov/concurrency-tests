@@ -100,3 +100,19 @@ Checking http://localhost:8102/data
 
 But it's still significantly slower than uWSGI (although noticeably faster than 
 the previous FastAPI implementation).
+
+## Edit 2: aiohttp as client
+
+After adding aiohttp and making `aiohttp.ClientSession` a global session I also
+got a bit more improvement:
+
+```
+ $ ./scripts/check-performance.py 
+Checking http://localhost:8101/data
+[0.10453539900117903, 0.07663203999982215, 0.08214562500143074]
+Checking http://localhost:8102/data
+[0.2804249090004305, 0.21994025399908423, 0.2271890380034165]
+```
+
+But it's still significantly slower than uWSGI (although a bit faster than 
+the previous FastAPI tests).

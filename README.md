@@ -81,3 +81,22 @@ end up with these timings for the stack to handle the request and then respond:
 
 So, overall, uWSGI + gevent + Flask ends up being about 9x faster than a similar
 Uvicorn + uvloop + FastAPI stack.
+
+# Updates / edits
+
+## Edit 1: AsyncClient as a global variable
+
+After making the AsyncClient a global object started together with the app, I
+managed to get better timings from FastAPI because of avoiding the boilerplate
+latency for setting up the client pool:
+
+```
+ $ ./scripts/check-performance.py 
+Checking http://localhost:8101/data
+[0.09677495100186206, 0.0804886539990548, 0.08643015100096818]
+Checking http://localhost:8102/data
+[0.27411253199898056, 0.2451330690018949, 0.2572915169985208]
+```
+
+But it's still significantly slower than uWSGI (although noticeably faster than 
+the previous FastAPI implementation).

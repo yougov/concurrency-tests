@@ -25,11 +25,8 @@ def data():
     start = time.time()
     final_data: list[JsonDict] = []
     with ThreadPoolExecutor(len(URLS)) as executor:
-        futures: list[Future] = [
-            executor.submit(fetch_data, url) for url in URLS
-        ]
-        for future in as_completed(futures):
-            final_data.append(future.result())
+        for result in executor.map(fetch_data, URLS):
+            final_data.append(result)
     elapsed = time.time() - start
     print('Took', elapsed, 'seconds to gather data')
 

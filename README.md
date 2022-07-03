@@ -133,3 +133,20 @@ Checking http://localhost:8102/data
 This makes it more pronounced that the delivery of the response payload is the
 big difference between those stacks. Still trying to find out why and what's
 causing that.
+
+## Edit 4: Optimizing Uvicorn as much as I can
+
+I now made sure I wasn't running barely anything else than the stacks in my
+computer, and forced Uvicorn to run with httptools and uvloop (just in case it
+wasn't using one or either of them), and here were my results now:
+
+```
+ $ ./scripts/check-performance.py 
+Checking http://localhost:8101/data
+[2.527190361986868, 2.5403314139985014, 2.5657907629938563, 2.5391202510072617]
+Checking http://localhost:8102/data
+[16.13299038200057, 16.14415543198993, 16.0113767899893, 15.997932392012444]
+```
+
+All cases are slightly better than before, for all stacks, but still a huge
+performance difference between the stacks.

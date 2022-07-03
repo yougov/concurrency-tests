@@ -17,4 +17,4 @@ run-uwsgi:
 	uwsgi stacks/uwsgi.ini
 
 run-fastapi:
-	uvicorn --host=0.0.0.0 --port=8102 stacks.fastapi_uvicorn:app
+	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=8102 stacks.fastapi_uvicorn:app

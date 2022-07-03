@@ -2,7 +2,7 @@ from os import getenv
 from typing import Any
 
 
-N_FILES = 20
+N_FILES = 50
 NGINX_BASE_URL = getenv('NGINX_BASE_URL', 'http://nginx')
 
 

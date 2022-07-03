@@ -11,7 +11,7 @@ FIXTURES = PROJECT_PATH / 'fixtures'
 
 
 N_FILES = 100
-N_ITEMS = 1000
+N_ITEMS = 10000
 
 
 def date_to_int(date: dt.date) -> int:

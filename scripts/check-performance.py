@@ -16,7 +16,7 @@ def main() -> None:
         variables = globals() | locals()
         print('Checking', url)
         print(timeit.repeat(
-            'requests.get(url)', globals=variables, number=1, repeat=3))
+            'requests.get(url)', globals=variables, number=3, repeat=4))
 
 
 if __name__ == '__main__':

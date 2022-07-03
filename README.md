@@ -150,3 +150,40 @@ Checking http://localhost:8102/data
 
 All cases are slightly better than before, for all stacks, but still a huge
 performance difference between the stacks.
+
+## Edit 5: Adding aiohttp server
+
+I added aiohttp as a server to the mix, to get a grasp of how it performs,
+expecting it to perform similarly to FastAPI + Uvicorn. Much to my surprise, it
+not only performed way better than FastAPI + Uvicorn, but also a bit better than
+uWSGI + Flask which was my performance reference. For the results below:
+
+* http://localhost:8103/data is aiohttp with normal asyncio loop
+* http://localhost:8104/data is aiohttp with uvloop
+
+```
+ $ make check-performance 
+python3 scripts/check-performance.py
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 2.6458381063324246
+Timings: [2.6972674790013116, 2.6148150009976234, 2.625431838998338]
+Checking http://localhost:8102/data
+Average: 16.227512442007235
+Timings: [16.273041088003083, 16.196980773005635, 16.212515465012984]
+Checking http://localhost:8103/data
+Average: 1.9147164596652146
+Timings: [1.927170394003042, 1.9134009429981234, 1.9035780419944786]
+Checking http://localhost:8104/data
+Average: 1.843575427332932
+Timings: [1.8504752360022394, 1.8394017569953576, 1.8408492890011985]
+*** Checking correctness of data ***
+Checking http://localhost:8101/data
+http://localhost:8101/data is correct
+Checking http://localhost:8102/data
+http://localhost:8102/data is correct
+Checking http://localhost:8103/data
+http://localhost:8103/data is correct
+Checking http://localhost:8104/data
+http://localhost:8104/data is correct
+```

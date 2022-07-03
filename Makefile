@@ -12,6 +12,10 @@ up:
 	docker compose build
 	docker compose up
 
+create-fixtures:
+	$(eval export PYTHONPATH=${PWD})
+	python3 scripts/create-fixtures.py
+
 check-performance:
 	$(eval export PYTHONPATH=${PWD})
 	python3 scripts/check-performance.py

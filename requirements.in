@@ -4,6 +4,7 @@ fastapi
 flask
 gevent
 httpx
+hypercorn[uvloop]
 orjson
 pip-tools
 requests

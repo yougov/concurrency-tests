@@ -27,5 +27,8 @@ run-uwsgi:
 run-fastapi:
 	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=8102 stacks.fastapi_uvicorn:app
 
+run-fastapi-hypercorn:
+	hypercorn --worker-class=uvloop --bind=0.0.0.0:${PORT} stacks.fastapi_uvicorn:app
+
 run-aiohttp:
 	python3 stacks/aiohttp_multi_loop.py

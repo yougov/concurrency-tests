@@ -37,8 +37,9 @@ services:
     command: make run-aiohttp
     environment:
       PORT: 8103
+      LOOP_POLICY: uvloop.EventLoopPolicy
 
-  aiohttp-uvloop:
+  fastapi-hypercorn:
     build: .
     ports:
       - "8104:8104"
@@ -48,10 +49,9 @@ services:
       - nginx
     depends_on:
       - nginx
-    command: make run-aiohttp
+    command: make run-fastapi-hypercorn
     environment:
       PORT: 8104
-      LOOP_POLICY: uvloop.EventLoopPolicy
 
   nginx:
     image: nginx

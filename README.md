@@ -218,3 +218,46 @@ http://localhost:8104/data is correct
 ```
 
 which gives an even more pronounced performance improvement for aiohttp.
+
+## Edit 6: FastAPI + Hypercorn
+
+Just to check if the performance issue could be with Uvicorn, I also added
+Hypercorn to the mix. For the results below:
+
+* http://localhost:8101/data is uWSGI + Flask + gevent
+* http://localhost:8102/data is uvloop + FastAPI + Uvicorn
+* http://localhost:8103/data is uvloop + aiohttp
+* http://localhost:8104/data is uvloop + FastAPI + Hypercorn
+
+Here are the results:
+
+```
+ $ make check-performance 
+python3 scripts/check-performance.py
+*** Checking correctness of data ***
+Checking http://localhost:8101/data
+http://localhost:8101/data is correct
+Checking http://localhost:8102/data
+http://localhost:8102/data is correct
+Checking http://localhost:8103/data
+http://localhost:8103/data is correct
+Checking http://localhost:8104/data
+http://localhost:8104/data is correct
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5557943843353618
+Timings: [0.5642758260073606, 0.5538909169990802, 0.5492164099996444]
+Checking http://localhost:8102/data
+Average: 1.678230069000468
+Timings: [1.7020821720070671, 1.6667501029878622, 1.6658579320064746]
+Checking http://localhost:8103/data
+Average: 0.2670309113357992
+Timings: [0.26443595500313677, 0.26453293100348674, 0.27212384800077416]
+Checking http://localhost:8104/data
+Average: 1.7436538100009784
+Timings: [1.7575230410002405, 1.7376779810001608, 1.735760408002534]
+```
+
+So Hypercorn performed worse than Uvicorn. And there seems to be something being
+done in FastAPI that makes it slower than the other stacks, maybe something that
+I could simplify in the test app.

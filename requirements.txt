@@ -58,13 +58,23 @@ greenlet==1.1.2
 h11==0.12.0
     # via
     #   httpcore
+    #   hypercorn
     #   uvicorn
+    #   wsproto
+h2==4.1.0
+    # via hypercorn
+hpack==4.0.0
+    # via h2
 httpcore==0.15.0
     # via httpx
 httptools==0.4.0
     # via uvicorn
 httpx==0.23.0
     # via -r requirements.in
+hypercorn[uvloop]==0.13.2
+    # via -r requirements.in
+hyperframe==6.0.1
+    # via h2
 idna==3.3
     # via
     #   anyio
@@ -91,6 +101,8 @@ pep517==0.12.0
     # via build
 pip-tools==6.8.0
     # via -r requirements.in
+priority==2.0.0
+    # via hypercorn
 pycares==4.2.1
     # via aiodns
 pycparser==2.21
@@ -114,6 +126,8 @@ sniffio==1.2.0
     #   httpx
 starlette==0.19.1
     # via fastapi
+toml==0.10.2
+    # via hypercorn
 tomli==2.0.1
     # via
     #   build
@@ -127,7 +141,9 @@ urllib3==1.26.9
 uvicorn[standard]==0.18.2
     # via -r requirements.in
 uvloop==0.16.0
-    # via uvicorn
+    # via
+    #   hypercorn
+    #   uvicorn
 uwsgi==2.0.20
     # via -r requirements.in
 watchfiles==0.15.0
@@ -138,6 +154,8 @@ werkzeug==2.1.2
     # via flask
 wheel==0.37.1
     # via pip-tools
+wsproto==1.1.0
+    # via hypercorn
 yarl==1.7.2
     # via aiohttp
 zipp==3.8.0

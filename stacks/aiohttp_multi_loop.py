@@ -2,16 +2,14 @@
 import asyncio
 import time
 from os import getenv
-from typing import Optional
 
 import orjson as json
 from aiohttp import ClientSession, web
-from werkzeug.utils import import_string
+from uvloop import EventLoopPolicy
 
 from stacks.base import JsonDict, URLS
 
 
-LOOP_POLICY: Optional[str] = getenv('LOOP_POLICY')
 PORT = int(getenv('PORT', 8000))
 
 
@@ -44,7 +42,5 @@ app.add_routes(routes)
 
 
 if __name__ == '__main__':
-    if LOOP_POLICY is not None:
-        loop_policy_class = import_string(LOOP_POLICY)
-        asyncio.set_event_loop_policy(loop_policy_class())
+    asyncio.set_event_loop_policy(EventLoopPolicy())
     web.run_app(app, host='0.0.0.0', port=PORT)

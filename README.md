@@ -187,3 +187,34 @@ http://localhost:8103/data is correct
 Checking http://localhost:8104/data
 http://localhost:8104/data is correct
 ```
+
+Same stuff as above, but with fewer items in each response payload:
+
+```
+ $ make check-performance 
+python3 scripts/check-performance.py
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5782370129988218
+Timings: [0.5935518369951751, 0.5747218600008637, 0.5664373420004267]
+Checking http://localhost:8102/data
+Average: 1.7061704700026894
+Timings: [1.776460016000783, 1.6743788240128197, 1.6676725699944654]
+Checking http://localhost:8103/data
+Average: 0.3183802133329057
+Timings: [0.33034264300658833, 0.3127249029930681, 0.3120730939990608]
+Checking http://localhost:8104/data
+Average: 0.28490452833163243
+Timings: [0.2977750389982248, 0.2825904119963525, 0.27434813400032]
+*** Checking correctness of data ***
+Checking http://localhost:8101/data
+http://localhost:8101/data is correct
+Checking http://localhost:8102/data
+http://localhost:8102/data is correct
+Checking http://localhost:8103/data
+http://localhost:8103/data is correct
+Checking http://localhost:8104/data
+http://localhost:8104/data is correct
+```
+
+which gives an even more pronounced performance improvement for aiohttp.

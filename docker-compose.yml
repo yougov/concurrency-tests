@@ -24,6 +24,35 @@ services:
       - nginx
     command: make run-fastapi
 
+  aiohttp:
+    build: .
+    ports:
+      - "8103:8103"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-aiohttp
+    environment:
+      PORT: 8103
+
+  aiohttp-uvloop:
+    build: .
+    ports:
+      - "8104:8104"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-aiohttp
+    environment:
+      PORT: 8104
+      LOOP_POLICY: uvloop.EventLoopPolicy
+
   nginx:
     image: nginx
     logging:

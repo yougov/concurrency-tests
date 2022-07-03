@@ -3,15 +3,11 @@
 import datetime as dt
 import json
 import random
-from pathlib import Path
+
+from scripts.base import N_FILES, N_ITEMS, PROJECT_PATH
 
 
-PROJECT_PATH = Path(__file__).parent.parent.absolute()
 FIXTURES = PROJECT_PATH / 'fixtures'
-
-
-N_FILES = 100
-N_ITEMS = 10000
 
 
 def date_to_int(date: dt.date) -> int:

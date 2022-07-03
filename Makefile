@@ -12,9 +12,16 @@ up:
 	docker compose build
 	docker compose up
 
+check-performance:
+	$(eval export PYTHONPATH=${PWD})
+	python3 scripts/check-performance.py
+
 # Applications
 run-uwsgi:
 	uwsgi stacks/uwsgi.ini
 
 run-fastapi:
 	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=8102 stacks.fastapi_uvicorn:app
+
+run-aiohttp:
+	python3 stacks/aiohttp_multi_loop.py

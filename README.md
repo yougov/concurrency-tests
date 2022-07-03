@@ -261,3 +261,43 @@ Timings: [1.7575230410002405, 1.7376779810001608, 1.735760408002534]
 So Hypercorn performed worse than Uvicorn. And there seems to be something being
 done in FastAPI that makes it slower than the other stacks, maybe something that
 I could simplify in the test app.
+
+## Edit 7: Running on a VM in a remote server
+
+I ran all that stuff, with the latest changes, on a VM that's running on a
+remote server, just to check if there would be any surprises when comparing to
+them running on my computer. The VM is listed as having only 1 logical core, and
+it has 4GB of RAM in total. The tests were run without barely anything else
+running, with the same codebase state as the previous test:
+
+```
+ $ make check-performance
+python3 scripts/check-performance.py
+*** Checking correctness of data ***
+Checking http://localhost:8101/data
+http://localhost:8101/data is correct
+Checking http://localhost:8102/data
+http://localhost:8102/data is correct
+Checking http://localhost:8103/data
+http://localhost:8103/data is correct
+Checking http://localhost:8104/data
+http://localhost:8104/data is correct
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.613248768573006
+Timings: [0.6303591337054968, 0.6183538045734167, 0.5910333674401045]
+Checking http://localhost:8102/data
+Average: 1.4408962487553556
+Timings: [1.454364343546331, 1.4309169836342335, 1.4374074190855026]
+Checking http://localhost:8103/data
+Average: 0.2993548788751165
+Timings: [0.2810085276141763, 0.2922225706279278, 0.32483353838324547]
+Checking http://localhost:8104/data
+Average: 1.4772176807746291
+Timings: [1.490590337663889, 1.4459769548848271, 1.4950857497751713]
+```
+
+In that VM FastAPI did run a bit faster than on my computer, and uWSGI and
+aiohttp ran a bit slower, but there's still a significant difference in
+performance between FastAPI and the other options. uWSGI is at least twice as
+fast, and aiohttp is even faster.

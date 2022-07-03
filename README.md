@@ -116,3 +116,20 @@ Checking http://localhost:8102/data
 
 But it's still significantly slower than uWSGI (although a bit faster than 
 the previous FastAPI tests).
+
+## Edit 3: Increasing everything
+
+After increasing the size of the files, the number of timeit calls and the
+repetitions, I got an even more dramatic difference:
+
+```
+ $ ./scripts/check-performance.py 
+Checking http://localhost:8101/data
+[2.631773353990866, 2.5597720590012614, 2.6319224660110194, 2.5842257650074316]
+Checking http://localhost:8102/data
+[16.15418745999341, 16.162098834989592, 16.20327517199621, 16.071328858990455]
+```
+
+This makes it more pronounced that the delivery of the response payload is the
+big difference between those stacks. Still trying to find out why and what's
+causing that.

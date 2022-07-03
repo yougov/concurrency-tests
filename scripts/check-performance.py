@@ -47,5 +47,5 @@ def check_correctness():
 
 
 if __name__ == '__main__':
-    check_performance()
     check_correctness()
+    check_performance()

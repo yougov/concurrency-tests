@@ -2,6 +2,7 @@
 .gitignore
 .env
 logs/
+profiling/
 env/
 .venv/
 venv/

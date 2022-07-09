@@ -8,5 +8,6 @@ hypercorn[uvloop]
 orjson
 pip-tools
 requests
+sanic
 uvicorn[standard]
 uwsgi

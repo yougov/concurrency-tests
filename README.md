@@ -301,3 +301,37 @@ In that VM FastAPI did run a bit faster than on my computer, and uWSGI and
 aiohttp ran a bit slower, but there's still a significant difference in
 performance between FastAPI and the other options. uWSGI is at least twice as
 fast, and aiohttp is even faster.
+
+## Edit 8: Adding Sanic
+
+Just to test yet another asyncio-based framework, I added Sanic to the mix.
+
+Here are the results, with port 8105 being Sanic served directly and 8106 served
+behind Uvicorn:
+
+```
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5595273966667568
+Timings: [0.595685119999871, 0.5261793409999882, 0.556717729000411]
+Checking http://localhost:8102/data
+Average: 1.7249857080000766
+Timings: [1.763092103999952, 1.712813942000139, 1.6990510780001387]
+Checking http://localhost:8103/data
+Average: 0.24711097800006124
+Timings: [0.2507987750000211, 0.25464237300002424, 0.23589178600013838]
+Checking http://localhost:8104/data
+Average: 1.7103904253334197
+Timings: [1.7158350830000018, 1.7082126370000879, 1.7071235560001696]
+Checking http://localhost:8105/data
+Average: 0.25828098299992536
+Timings: [0.2605192519999946, 0.2685947129998567, 0.24572898399992482]
+Checking http://localhost:8106/data
+Average: 0.2449119503333653
+Timings: [0.24571987999979683, 0.24528555300003063, 0.2437304180002684]
+```
+
+So here we have a very interesting situation: Sanic is the fastest of them all,
+and even a tiny bit faster when running behind Uvicorn. Which makes me conclude
+that it's not Uvicorn which makes FastAPI so slow to respond in our scenario
+here.

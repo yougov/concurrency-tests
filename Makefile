@@ -25,10 +25,16 @@ run-uwsgi:
 	uwsgi stacks/uwsgi.ini
 
 run-fastapi:
-	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=8102 stacks.fastapi_uvicorn:app
+	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=${PORT} stacks.fastapi_uvicorn:app
 
 run-fastapi-hypercorn:
 	hypercorn --worker-class=uvloop --bind=0.0.0.0:${PORT} stacks.fastapi_uvicorn:app
 
 run-aiohttp:
 	python3 stacks/aiohttp_multi_loop.py
+
+run-sanic-direct:
+	python3 stacks/sanic_app.py
+
+run-sanic-asgi:
+	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=${PORT} stacks.sanic_app:app

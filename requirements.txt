@@ -6,6 +6,8 @@
 #
 aiodns==3.0.0
     # via aiohttp
+aiofiles==0.8.0
+    # via sanic
 aiohttp[speedups]==3.8.1
     # via -r requirements.in
 aiosignal==1.2.0
@@ -68,7 +70,9 @@ hpack==4.0.0
 httpcore==0.15.0
     # via httpx
 httptools==0.4.0
-    # via uvicorn
+    # via
+    #   sanic
+    #   uvicorn
 httpx==0.23.0
     # via -r requirements.in
 hypercorn[uvloop]==0.13.2
@@ -92,6 +96,7 @@ markupsafe==2.1.1
 multidict==6.0.2
     # via
     #   aiohttp
+    #   sanic
     #   yarl
 orjson==3.7.5
     # via -r requirements.in
@@ -119,6 +124,10 @@ requests==2.28.1
     # via -r requirements.in
 rfc3986[idna2008]==1.5.0
     # via httpx
+sanic==22.6.0
+    # via -r requirements.in
+sanic-routing==22.3.0
+    # via sanic
 sniffio==1.2.0
     # via
     #   anyio
@@ -136,6 +145,8 @@ typing-extensions==4.3.0
     # via
     #   pydantic
     #   starlette
+ujson==5.4.0
+    # via sanic
 urllib3==1.26.9
     # via requests
 uvicorn[standard]==0.18.2
@@ -143,13 +154,16 @@ uvicorn[standard]==0.18.2
 uvloop==0.16.0
     # via
     #   hypercorn
+    #   sanic
     #   uvicorn
 uwsgi==2.0.20
     # via -r requirements.in
 watchfiles==0.15.0
     # via uvicorn
 websockets==10.3
-    # via uvicorn
+    # via
+    #   sanic
+    #   uvicorn
 werkzeug==2.1.2
     # via flask
 wheel==0.37.1

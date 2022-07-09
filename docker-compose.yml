@@ -11,6 +11,8 @@ services:
     depends_on:
       - nginx
     command: make run-uwsgi
+    environment:
+      PORT: 8101
 
   fastapi:
     build: .
@@ -23,6 +25,8 @@ services:
     depends_on:
       - nginx
     command: make run-fastapi
+    environment:
+      PORT: 8102
 
   aiohttp:
     build: .
@@ -52,6 +56,34 @@ services:
     command: make run-fastapi-hypercorn
     environment:
       PORT: 8104
+
+  sanic-direct:
+    build: .
+    ports:
+      - "8105:8105"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-sanic-direct
+    environment:
+      PORT: 8105
+
+  sanic-asgi:
+    build: .
+    ports:
+      - "8106:8106"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-sanic-asgi
+    environment:
+      PORT: 8106
 
   nginx:
     image: nginx

@@ -7,7 +7,6 @@ from fastapi import FastAPI
 
 import orjson as json
 from fastapi.responses import ORJSONResponse
-from fastapi import Response
 
 from stacks.base import JsonDict, PROJECT_PATH, URLS
 
@@ -41,9 +40,4 @@ async def data():
         gathered_data = await asyncio.gather(*coroutines)
     elapsed = time.time() - start
     print('Took', elapsed, 'seconds to gather data')
-    return Response(
-        content=json.dumps(gathered_data),
-        headers={
-            'Content-Type': 'application/json',
-        }
-    )
+    return ORJSONResponse(gathered_data)

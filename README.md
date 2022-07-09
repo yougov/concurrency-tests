@@ -350,3 +350,57 @@ Timings: [0.2636999240003206, 0.23142165999979625, 0.23238397300065117]
 So indeed there's something extra being done by FastAPI that makes responses
 much slower - because it's based on Starlette, which when running pure has
 much better performance.
+
+## Edit 10: Returning raw Response instance
+
+As I suspected, the performance problem in FastAPI lies in the way it handles
+the data being returned in the response. It does a fair amount of inspection of
+the values, probably to get the OpenAPI stuff right, and this imposes a
+considerable performance hit.
+
+Here are the same results as before, but this time returning from the request
+handler with a bare Response instance, thus manually encoding the response
+payload (FastAPI is ports 8102 and 8104 below):
+
+```
+python3 scripts/check-performance.py
+*** Checking correctness of data ***
+Checking http://localhost:8101/data
+http://localhost:8101/data is correct
+Checking http://localhost:8102/data
+http://localhost:8102/data is correct
+Checking http://localhost:8103/data
+http://localhost:8103/data is correct
+Checking http://localhost:8104/data
+http://localhost:8104/data is correct
+Checking http://localhost:8105/data
+http://localhost:8105/data is correct
+Checking http://localhost:8106/data
+http://localhost:8106/data is correct
+Checking http://localhost:8107/data
+http://localhost:8107/data is correct
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5492803453331968
+Timings: [0.5468588979993001, 0.5586922540005617, 0.5422898839997288]
+Checking http://localhost:8102/data
+Average: 0.24980172600013853
+Timings: [0.29054267300034553, 0.22729272800006584, 0.23156977700000425]
+Checking http://localhost:8103/data
+Average: 0.25109697366648714
+Timings: [0.25375061399972765, 0.24550750499929563, 0.2540328020004381]
+Checking http://localhost:8104/data
+Average: 0.2413024363331715
+Timings: [0.26002944899937575, 0.2304424169997219, 0.23343544300041685]
+Checking http://localhost:8105/data
+Average: 0.2484863879999466
+Timings: [0.23881834100029664, 0.25914031399952364, 0.24750050900001952]
+Checking http://localhost:8106/data
+Average: 0.2281213440001011
+Timings: [0.23330932399949234, 0.21634259300026315, 0.23471211500054778]
+Checking http://localhost:8107/data
+Average: 0.2612281996665236
+Timings: [0.2642462539997723, 0.2647721109997292, 0.2546662340000694]
+```
+
+Now FastAPI compares to the other asyncio-based frameworks!

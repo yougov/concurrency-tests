@@ -85,6 +85,20 @@ services:
     environment:
       PORT: 8106
 
+  starlette-uvicorn:
+    build: .
+    ports:
+      - "8107:8107"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-starlette-uvicorn
+    environment:
+      PORT: 8107
+
   nginx:
     image: nginx
     logging:

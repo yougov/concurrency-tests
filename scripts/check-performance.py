@@ -14,6 +14,7 @@ URLS = [
     'http://localhost:8104/data',
     'http://localhost:8105/data',
     'http://localhost:8106/data',
+    'http://localhost:8107/data',
 ]
 N_TIMES = 3
 N_REPEATS = 3

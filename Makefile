@@ -38,3 +38,6 @@ run-sanic-direct:
 
 run-sanic-asgi:
 	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=${PORT} stacks.sanic_app:app
+
+run-starlette-uvicorn:
+	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=${PORT} stacks.starlette_app:app

@@ -335,3 +335,18 @@ So here we have a very interesting situation: Sanic is the fastest of them all,
 and even a tiny bit faster when running behind Uvicorn. Which makes me conclude
 that it's not Uvicorn which makes FastAPI so slow to respond in our scenario
 here.
+
+## Edit 9: Pure Starlette
+
+I've just tested pure Starlette. Here are the results for it running behind
+Uvicorn:
+
+```
+Checking http://localhost:8107/data
+Average: 0.24250185233358934
+Timings: [0.2636999240003206, 0.23142165999979625, 0.23238397300065117]
+```
+
+So indeed there's something extra being done by FastAPI that makes responses
+much slower - because it's based on Starlette, which when running pure has
+much better performance.

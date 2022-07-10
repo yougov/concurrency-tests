@@ -41,3 +41,9 @@ run-sanic-asgi:
 
 run-starlette-uvicorn:
 	uvicorn --loop=uvloop --http=httptools --ws=none --host=0.0.0.0 --port=${PORT} stacks.starlette_app:app
+
+run-aiohttp-gunicorn:
+	gunicorn stacks.aiohttp_multi_loop:app --bind=0.0.0.0:${PORT} --worker-class=aiohttp.GunicornUVLoopWebWorker --workers=4
+
+run-aiohttp-uwsgi:
+	uwsgi stacks/uwsgi-aiohttp.ini

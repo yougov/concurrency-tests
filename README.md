@@ -404,3 +404,42 @@ Timings: [0.2642462539997723, 0.2647721109997292, 0.2546662340000694]
 ```
 
 Now FastAPI compares to the other asyncio-based frameworks!
+
+## Edit 11: aiohttp under Gunicorn and under uWSGI
+
+Just for the sake of science (not really, but...), I also added two new takes on
+aiohttp: one running under Gunicorn (port 8108 below) and one running under
+uWSGI (port 8109 below).
+
+```
+Checking http://localhost:8101/data
+Average: 0.5857285166663738
+Timings: [0.6075965429918142, 0.5707378310034983, 0.5788511760038091]
+Checking http://localhost:8102/data
+Average: 0.2693211586689965
+Timings: [0.26962231600191444, 0.2656774749921169, 0.272663685012958]
+Checking http://localhost:8103/data
+Average: 0.27253545600008994
+Timings: [0.27471838300698437, 0.270809723995626, 0.2720782609976595]
+Checking http://localhost:8104/data
+Average: 0.2662247866683174
+Timings: [0.2537858319992665, 0.27199866699811537, 0.2728898610075703]
+Checking http://localhost:8105/data
+Average: 0.2634680923365522
+Timings: [0.2701641309977276, 0.2661690460081445, 0.2540711000037845]
+Checking http://localhost:8106/data
+Average: 0.2536975643306505
+Timings: [0.26195553899742663, 0.24524874400231056, 0.2538884099922143]
+Checking http://localhost:8107/data
+Average: 0.24046570600088066
+Timings: [0.22387974899902474, 0.2442926579969935, 0.2532247110066237]
+Checking http://localhost:8108/data
+Average: 0.29463179100033204
+Timings: [0.33611946800374426, 0.26753793899843004, 0.2802379659988219]
+Checking http://localhost:8109/data
+Average: 0.29934803033150575
+Timings: [0.30769793200306594, 0.2901989489910193, 0.3001472100004321]
+```
+
+Both Gunicorn and uWSGI add a bit of latency to aiohttp, but the benefit is
+being able to run multiple processes for the app.

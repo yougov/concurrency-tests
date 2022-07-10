@@ -99,6 +99,34 @@ services:
     environment:
       PORT: 8107
 
+  aiohttp-gunicorn:
+    build: .
+    ports:
+      - "8108:8108"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-aiohttp-gunicorn
+    environment:
+      PORT: 8108
+
+  aiohttp-uwsgi:
+    build: .
+    ports:
+      - "8109:8109"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-aiohttp-uwsgi
+    environment:
+      PORT: 8109
+
   nginx:
     image: nginx
     logging:

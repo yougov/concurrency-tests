@@ -3,6 +3,7 @@ cython
 fastapi
 flask
 gevent
+gunicorn
 httpx
 hypercorn[uvloop]
 orjson

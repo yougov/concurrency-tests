@@ -127,6 +127,20 @@ services:
     environment:
       PORT: 8109
 
+  rust:
+    build: .
+    ports:
+      - "8110:8110"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-rust-app
+    environment:
+      PORT: 8110
+
   nginx:
     image: nginx
     logging:

@@ -9,6 +9,7 @@ dependency-sync:
 	pip-sync
 
 up:
+	cd stacks/rustapp && cargo build --release
 	docker compose build
 	docker compose up
 
@@ -47,3 +48,6 @@ run-aiohttp-gunicorn:
 
 run-aiohttp-uwsgi:
 	uwsgi stacks/uwsgi-aiohttp.ini
+
+run-rust-app:
+	./stacks/rustapp/target/release/rustapp

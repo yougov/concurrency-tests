@@ -443,3 +443,43 @@ Timings: [0.30769793200306594, 0.2901989489910193, 0.3001472100004321]
 
 Both Gunicorn and uWSGI add a bit of latency to aiohttp, but the benefit is
 being able to run multiple processes for the app.
+
+## Edit 12: Added actix-web (Rust) to the mix
+
+Now running Rust at port 8110:
+
+```
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5860108939911394
+Timings: [0.5971241169900168, 0.5796863669966115, 0.58122219798679]
+Checking http://localhost:8102/data
+Average: 0.2737202873346784
+Timings: [0.29462976500508375, 0.2492477229970973, 0.2772833740018541]
+Checking http://localhost:8103/data
+Average: 0.27776014067057986
+Timings: [0.2852721760136774, 0.2723720880021574, 0.2756361579959048]
+Checking http://localhost:8104/data
+Average: 0.2716589259992664
+Timings: [0.285364251001738, 0.2671622249908978, 0.2624503020051634]
+Checking http://localhost:8105/data
+Average: 0.26566417899933487
+Timings: [0.2814665879996028, 0.2480908779980382, 0.2674350710003637]
+Checking http://localhost:8106/data
+Average: 0.25691093132869963
+Timings: [0.2616907409974374, 0.24337856299825944, 0.265663489990402]
+Checking http://localhost:8107/data
+Average: 0.25629132133326493
+Timings: [0.2749351180100348, 0.2427282979915617, 0.2512105479981983]
+Checking http://localhost:8108/data
+Average: 0.3147027926655331
+Timings: [0.3657093520014314, 0.3020647559897043, 0.2763342700054636]
+Checking http://localhost:8109/data
+Average: 0.36034615100167383
+Timings: [0.4017361610021908, 0.31601028400473297, 0.3632920079980977]
+Checking http://localhost:8110/data
+Average: 0.17194515833398327
+Timings: [0.1882213880016934, 0.16158169400296174, 0.16603239299729466]
+```
+
+As expected, Rust is much faster than the alternatives.

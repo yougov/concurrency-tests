@@ -1,13 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/goccy/go-json"
+	"github.com/gofiber/fiber/v2"
 	"io"
 	"log"
-	"os"
-	"github.com/gofiber/fiber/v2"
 	"net/http"
+	"os"
 	"sync"
 )
 

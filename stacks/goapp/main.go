@@ -8,6 +8,7 @@ import (
 	"os"
 	"github.com/gofiber/fiber/v2"
 	"net/http"
+	"sync"
 )
 
 const N_FILES = 50
@@ -50,23 +51,20 @@ func main() {
 	}
 
 	app.Get("/data", func(c *fiber.Ctx) error {
-		var channels [N_FILES]chan map[string]any
+		log.Println("Received data request.")
 		results := make([]map[string]any, N_FILES)
+		var wg sync.WaitGroup
 
 		for i := 0; i < N_FILES; i++ {
-			channels[i] = make(chan map[string]any, 1)
-		}
-
-		for i := 0; i < N_FILES; i++ {
-			go func(channel chan map[string]any, i int) {
+			wg.Add(1)
+			go func(i int) {
+				defer wg.Done()
 				result := fetchUrl(urls[i])
-				channel <- result
-			}(channels[i], i)
+				results[i] = result
+			}(i)
 		}
 
-		for i := 0; i < N_FILES; i++ {
-			results[i] = <-channels[i]
-		}
+		wg.Wait()
 
 		body, err := json.Marshal(results)
 

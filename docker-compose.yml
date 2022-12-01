@@ -141,6 +141,20 @@ services:
     environment:
       PORT: 8110
 
+  go:
+    build: .
+    ports:
+      - "8111:8111"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-go-app
+    environment:
+      PORT: 8111
+
   nginx:
     image: nginx
     logging:

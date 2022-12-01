@@ -132,3 +132,4 @@ dmypy.json
 logs/
 profiling/
 .idea/
+!/stacks/goapp/concurrency-tests

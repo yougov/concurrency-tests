@@ -10,6 +10,7 @@ dependency-sync:
 
 up:
 	cd stacks/rustapp && cargo build --release
+	cd stacks/goapp && go build -ldflags "-s -w"
 	docker compose build
 	docker compose up
 
@@ -51,3 +52,6 @@ run-aiohttp-uwsgi:
 
 run-rust-app:
 	./stacks/rustapp/target/release/rustapp
+
+run-go-app:
+	./stacks/goapp/concurrency-tests

@@ -3,11 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/gofiber/fiber/v2"
-	"io"
-	"log"
-	"net/http"
-	"os"
 	jsoniter "github.com/json-iterator/go"
+	"log"
+	"os"
 )
 
 const N_FILES = 50
@@ -21,17 +19,22 @@ func getEnv(key, fallback string) string {
 
 func fetchUrl(url string) map[string]any {
 	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	resp, err := http.Get(url)
-	if err != nil {
-		log.Fatalln(err)
+	a := fiber.AcquireAgent()
+	req := a.Request()
+	req.Header.SetMethod(fiber.MethodGet)
+	req.SetRequestURI(url)
+
+	if err := a.Parse(); err != nil {
+		panic(err)
 	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
+
+	_, body, errs := a.Bytes()
+	if errs != nil {
+		log.Fatalln(errs)
 	}
+
 	var result map[string]any
-	err = json.Unmarshal([]byte(body), &result)
+	err := json.Unmarshal([]byte(body), &result)
 	if err != nil {
 		log.Fatalln(err)
 	}

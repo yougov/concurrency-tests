@@ -1,10 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/gofiber/fiber/v2"
-	jsoniter "github.com/json-iterator/go"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -20,23 +20,18 @@ func getEnv(key, fallback string) string {
 }
 
 func fetchUrl(url string) map[string]any {
-	var json = jsoniter.ConfigCompatibleWithStandardLibrary
-	a := fiber.AcquireAgent()
-	req := a.Request()
-	req.Header.SetMethod(fiber.MethodGet)
-	req.SetRequestURI(url)
-
-	if err := a.Parse(); err != nil {
-		panic(err)
+	response, err := http.Get(url)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
-	_, body, errs := a.Bytes()
-	if errs != nil {
-		log.Fatalln(errs)
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
 	var result map[string]any
-	err := json.Unmarshal([]byte(body), &result)
+	err = json.Unmarshal([]byte(body), &result)
 	if err != nil {
 		log.Fatalln(err)
 	}

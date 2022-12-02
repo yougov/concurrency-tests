@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/gofiber/fiber/v2"
 	jsoniter "github.com/json-iterator/go"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -44,9 +46,7 @@ func fetchUrl(url string) map[string]any {
 
 func main() {
 	log.SetFlags(0)
-	app := fiber.New(fiber.Config{
-		Concurrency: 50,
-	})
+	r := gin.Default()
 	nginxBaseUrl := getEnv("NGINX_BASE_URL", "http://nginx")
 	portString := getEnv("PORT", "8000")
 	urls := make([]string, N_FILES)
@@ -55,7 +55,7 @@ func main() {
 		urls[i] = fmt.Sprintf("%v/%v.json", nginxBaseUrl, i)
 	}
 
-	app.Get("/data", func(c *fiber.Ctx) error {
+	r.GET("/data", func(c *gin.Context) {
 		log.Println("Received data request.")
 		var json = jsoniter.ConfigCompatibleWithStandardLibrary
 		results := make([]map[string]any, N_FILES)
@@ -82,8 +82,8 @@ func main() {
 			log.Fatalln(err)
 		}
 
-		return c.Send(body)
+		c.Data(http.StatusOK, "application/json", body)
 	})
 
-	app.Listen(fmt.Sprintf(":%v", portString))
+	r.Run(fmt.Sprintf(":%v", portString))
 }

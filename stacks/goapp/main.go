@@ -44,7 +44,9 @@ func fetchUrl(url string) map[string]any {
 
 func main() {
 	log.SetFlags(0)
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Concurrency: 50,
+	})
 	nginxBaseUrl := getEnv("NGINX_BASE_URL", "http://nginx")
 	portString := getEnv("PORT", "8000")
 	urls := make([]string, N_FILES)

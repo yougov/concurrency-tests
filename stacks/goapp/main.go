@@ -57,7 +57,6 @@ func main() {
 
 	r.GET("/data", func(c *gin.Context) {
 		log.Println("Received data request.")
-		var json = jsoniter.ConfigCompatibleWithStandardLibrary
 		results := make([]map[string]any, N_FILES)
 		var channels [N_FILES]chan map[string]any
 
@@ -76,13 +75,7 @@ func main() {
 			results[i] = <-channels[i]
 		}
 
-		body, err := json.Marshal(results)
-
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		c.Data(http.StatusOK, "application/json", body)
+		c.JSON(http.StatusOK, results)
 	})
 
 	r.Run(fmt.Sprintf(":%v", portString))

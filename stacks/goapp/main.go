@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"sync"
+	jsoniter "github.com/json-iterator/go"
 )
 
 const N_FILES = 50
@@ -21,6 +21,7 @@ func getEnv(key, fallback string) string {
 }
 
 func fetchUrl(url string) map[string]any {
+	var json = jsoniter.ConfigCompatibleWithStandardLibrary
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
@@ -52,6 +53,7 @@ func main() {
 
 	app.Get("/data", func(c *fiber.Ctx) error {
 		log.Println("Received data request.")
+		var json = jsoniter.ConfigCompatibleWithStandardLibrary
 		results := make([]map[string]any, N_FILES)
 		var wg sync.WaitGroup
 

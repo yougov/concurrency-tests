@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sync"
 )
 
 const N_FILES = 50
@@ -54,6 +55,7 @@ func main() {
 		log.Println("Received data request.")
 		results := make([]map[string]any, N_FILES)
 		var channels [N_FILES]chan map[string]any
+		var wg sync.WaitGroup
 
 		for i := 0; i < N_FILES; i++ {
 			channels[i] = make(chan map[string]any, 1)
@@ -61,10 +63,14 @@ func main() {
 
 		for i := 0; i < N_FILES; i++ {
 			go func(i int, channel chan map[string]any) {
+				wg.Add(1)
+				defer wg.Done()
 				result := fetchUrl(urls[i])
 				channel <- result
 			}(i, channels[i])
 		}
+
+		wg.Wait()
 
 		for i := 0; i < N_FILES; i++ {
 			results[i] = <-channels[i]

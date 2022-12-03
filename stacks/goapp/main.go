@@ -12,10 +12,13 @@ import (
 
 const N_FILES = 50
 
-type ResultMap = map[string]any
+type ResultMap struct {
+	Columns []string    `json:"columns"`
+	Rows    [][]float64 `json:"rows"`
+}
 type Result struct {
 	index int
-	data ResultMap
+	data  ResultMap
 }
 
 func getEnv(key, fallback string) string {
@@ -37,7 +40,7 @@ func fetchUrl(url string) ResultMap {
 	}
 
 	var result ResultMap
-	err = json.Unmarshal([]byte(body), &result)
+	err = json.Unmarshal(body, &result)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -63,7 +66,7 @@ func main() {
 		//pprof.StopCPUProfile()
 	})
 
-	r.Run(fmt.Sprintf(":%v", portString))
+	_ = r.Run(fmt.Sprintf(":%v", portString))
 }
 
 func handleDataRequest(c *gin.Context, urls []string) {

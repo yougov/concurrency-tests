@@ -133,3 +133,4 @@ logs/
 profiling/
 .idea/
 /stacks/goapp/concurrency-tests
+*.profile

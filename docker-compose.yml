@@ -154,6 +154,7 @@ services:
     command: make run-go-app
     environment:
       PORT: 8111
+      GIN_MODE: release
 
   nginx:
     image: nginx

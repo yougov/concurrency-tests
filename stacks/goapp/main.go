@@ -57,24 +57,31 @@ func main() {
 	}
 
 	r.GET("/data", func(c *gin.Context) {
-		log.Println("Received data request.")
-		results := make([]ResultMap, N_FILES)
-		channel := make(chan Result, N_FILES)
-
-		for i := 0; i < N_FILES; i++ {
-			go func(i int, channel chan Result) {
-				data := fetchUrl(urls[i])
-				channel <- Result{i, data}
-			}(i, channel)
-		}
-
-		for i := 0; i < N_FILES; i++ {
-			result := <-channel
-			results[result.index] = result.data
-		}
-
-		c.JSON(http.StatusOK, results)
+		//f, _ := os.Create("cpu.profile")
+		//_ = pprof.StartCPUProfile(f)
+		handleDataRequest(c, urls)
+		//pprof.StopCPUProfile()
 	})
 
 	r.Run(fmt.Sprintf(":%v", portString))
+}
+
+func handleDataRequest(c *gin.Context, urls []string) {
+	log.Println("Received data request.")
+	results := make([]ResultMap, N_FILES)
+	channel := make(chan Result, N_FILES)
+
+	for i := 0; i < N_FILES; i++ {
+		go func(i int, channel chan Result) {
+			data := fetchUrl(urls[i])
+			channel <- Result{i, data}
+		}(i, channel)
+	}
+
+	for i := 0; i < N_FILES; i++ {
+		result := <-channel
+		results[result.index] = result.data
+	}
+
+	c.JSON(http.StatusOK, results)
 }

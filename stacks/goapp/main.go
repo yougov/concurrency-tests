@@ -13,8 +13,8 @@ import (
 const N_FILES = 50
 
 type ResultMap struct {
-	Columns []string    `json:"columns"`
-	Rows    [][]float64 `json:"rows"`
+	Columns [4]string    `json:"columns"`
+	Rows    [][4]float64 `json:"rows"`
 }
 type Result struct {
 	index int

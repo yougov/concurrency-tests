@@ -49,7 +49,7 @@ def check_correctness():
             columns = data_item['columns']
             rows = data_item['rows']
             assert columns == ['date', 'foo', 'bar', 'baz']
-            assert len(rows) == N_ITEMS
+            assert len(rows) == N_ITEMS, f'It has {len(rows)} items'
         print(url, 'is correct')
 
 

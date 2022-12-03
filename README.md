@@ -533,3 +533,48 @@ This is probably due to my ignorance in Go, I'm still studying it, but it
 disappoints me a bit that I can't get it to perform at least as well as the
 majority of the Python stacks I tried. Hopefully once I know better about the
 language I can optimize this test to perform better.
+
+## Edit 14: Revamped Go code for performance
+
+I found out that unmarshalling JSON content into a loose map structure was
+super slow (possibly because of the amount of type guessing work it has to do).
+So moving to a more predictable structure brought some significant performance
+boost, and moving from the standard JSON library to go-json brought yet another
+significant boost. We're now pretty close to Rust, which is good enough to me!
+
+```
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.553617372000493
+Timings: [0.5674350379995303, 0.5613493280034163, 0.5320677499985322]
+Checking http://localhost:8102/data
+Average: 0.23834095499963345
+Timings: [0.23988015700160759, 0.2288304079993395, 0.24631229999795323]
+Checking http://localhost:8103/data
+Average: 0.23678846999731226
+Timings: [0.24551372599671595, 0.2263299409969477, 0.2385217429982731]
+Checking http://localhost:8104/data
+Average: 0.24732621599832783
+Timings: [0.25520781699742656, 0.2529781319972244, 0.2337926990003325]
+Checking http://localhost:8105/data
+Average: 0.24024959233065601
+Timings: [0.2405069949963945, 0.23926370199478697, 0.24097808000078658]
+Checking http://localhost:8106/data
+Average: 0.23625101533495277
+Timings: [0.2629590620053932, 0.21419178799988003, 0.2316021959995851]
+Checking http://localhost:8107/data
+Average: 0.24613324599825623
+Timings: [0.2750477640001918, 0.22352952899382217, 0.23982244500075467]
+Checking http://localhost:8108/data
+Average: 0.29476479533332167
+Timings: [0.29121846300404286, 0.3508308919990668, 0.24224503099685535]
+Checking http://localhost:8109/data
+Average: 0.32395537200015195
+Timings: [0.3427479570018477, 0.34962768200057326, 0.27949047699803486]
+Checking http://localhost:8110/data
+Average: 0.15523099167088125
+Timings: [0.16314853800577112, 0.15223667600366753, 0.1503077610032051]
+Checking http://localhost:8111/data
+Average: 0.18434059433153985
+Timings: [0.1830926440015901, 0.18587364899576642, 0.18405548999726307]
+```

@@ -8,10 +8,15 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"sync"
 )
 
 const N_FILES = 50
+
+type ResultMap = map[string]any
+type Result struct {
+	index int
+	data ResultMap
+}
 
 func getEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
@@ -20,7 +25,7 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
-func fetchUrl(url string) map[string]any {
+func fetchUrl(url string) ResultMap {
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalln(err)
@@ -31,7 +36,7 @@ func fetchUrl(url string) map[string]any {
 		log.Fatalln(err)
 	}
 
-	var result map[string]any
+	var result ResultMap
 	err = json.Unmarshal([]byte(body), &result)
 	if err != nil {
 		log.Fatalln(err)
@@ -53,27 +58,19 @@ func main() {
 
 	r.GET("/data", func(c *gin.Context) {
 		log.Println("Received data request.")
-		results := make([]map[string]any, N_FILES)
-		var channels [N_FILES]chan map[string]any
-		var wg sync.WaitGroup
+		results := make([]ResultMap, N_FILES)
+		channel := make(chan Result, N_FILES)
 
 		for i := 0; i < N_FILES; i++ {
-			channels[i] = make(chan map[string]any, 1)
+			go func(i int, channel chan Result) {
+				data := fetchUrl(urls[i])
+				channel <- Result{i, data}
+			}(i, channel)
 		}
 
 		for i := 0; i < N_FILES; i++ {
-			go func(i int, channel chan map[string]any) {
-				wg.Add(1)
-				defer wg.Done()
-				result := fetchUrl(urls[i])
-				channel <- result
-			}(i, channels[i])
-		}
-
-		wg.Wait()
-
-		for i := 0; i < N_FILES; i++ {
-			results[i] = <-channels[i]
+			result := <-channel
+			results[result.index] = result.data
 		}
 
 		c.JSON(http.StatusOK, results)

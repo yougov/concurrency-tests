@@ -483,3 +483,53 @@ Timings: [0.1882213880016934, 0.16158169400296174, 0.16603239299729466]
 ```
 
 As expected, Rust is much faster than the alternatives.
+
+## Edit 13: Added Go(lang) with Gin
+
+Now trying with a Go-based stack using Gin running at port 8111:
+
+```
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5495626856666908
+Timings: [0.5694074610000825, 0.5435743589998765, 0.5357062370001131]
+Checking http://localhost:8102/data
+Average: 0.24419921433339672
+Timings: [0.25756709500001307, 0.23248478499999692, 0.24254576300018016]
+Checking http://localhost:8103/data
+Average: 0.2477082216666986
+Timings: [0.2562589789999947, 0.23727569700008644, 0.2495899890000146]
+Checking http://localhost:8104/data
+Average: 0.23632258333335207
+Timings: [0.24638180900001316, 0.24029556599998614, 0.22229037500005688]
+Checking http://localhost:8105/data
+Average: 0.24613552099989042
+Timings: [0.25480718599987995, 0.24335959399991225, 0.24023978299987903]
+Checking http://localhost:8106/data
+Average: 0.23579079066659384
+Timings: [0.2582009159998506, 0.21576110699993478, 0.23341034899999613]
+Checking http://localhost:8107/data
+Average: 0.23948402699988947
+Timings: [0.24210006199996315, 0.22951583099984418, 0.24683618799986107]
+Checking http://localhost:8108/data
+Average: 0.3048614176667191
+Timings: [0.32362793099991904, 0.3169696790000671, 0.27398664300017117]
+Checking http://localhost:8109/data
+Average: 0.2988595006666704
+Timings: [0.3288502520001657, 0.30709647799994855, 0.26063177199989696]
+Checking http://localhost:8110/data
+Average: 0.14635076766671773
+Timings: [0.15750972499995441, 0.13875549300018974, 0.14278708500000903]
+Checking http://localhost:8111/data
+Average: 0.2981659416666389
+Timings: [0.2914139739998518, 0.2995065280001654, 0.3035773229998995]
+```
+
+I spent a considerable amount of time trying to extract the most I could from
+the stack, even using Fiber and 3 different JSON codecs, and it still doesn't
+perform nearly as well as I expected.
+
+This is probably due to my ignorance in Go, I'm still studying it, but it
+disappoints me a bit that I can't get it to perform at least as well as the
+majority of the Python stacks I tried. Hopefully once I know better about the
+language I can optimize this test to perform better.

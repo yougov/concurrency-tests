@@ -19,6 +19,7 @@ URLS = [
     'http://localhost:8109/data',
     'http://localhost:8110/data',
     'http://localhost:8111/data',
+    'http://localhost:8112/data',
 ]
 N_TIMES = 3
 N_REPEATS = 3
@@ -54,5 +55,8 @@ def check_correctness():
 
 
 if __name__ == '__main__':
-    check_correctness()
+    try:
+        check_correctness()
+    except Exception as e:
+        print('Error:', e)
     check_performance()

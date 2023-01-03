@@ -156,6 +156,20 @@ services:
       PORT: 8111
       GIN_MODE: release
 
+  robyn:
+    build: .
+    ports:
+      - "8112:8112"
+    volumes:
+      - .:/app
+    links:
+      - nginx
+    depends_on:
+      - nginx
+    command: make run-robyn
+    environment:
+      PORT: 8112
+
   nginx:
     image: nginx
     logging:

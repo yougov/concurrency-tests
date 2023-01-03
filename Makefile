@@ -55,3 +55,6 @@ run-rust-app:
 
 run-go-app:
 	./stacks/goapp/concurrency-tests
+
+run-robyn:
+	python3 stacks/robyn_bare.py

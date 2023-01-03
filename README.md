@@ -578,3 +578,54 @@ Checking http://localhost:8111/data
 Average: 0.18434059433153985
 Timings: [0.1830926440015901, 0.18587364899576642, 0.18405548999726307]
 ```
+
+## Edit 15: Added Robyn to the mix
+
+Now adding Robyn (a framework that mixes Rust and Python) at port 8112:
+
+```
+*** Checking performance ***
+Checking http://localhost:8101/data
+Average: 0.5350300939996183
+Timings: [0.5582880990004924, 0.5265497099971981, 0.5202524730011646]
+Checking http://localhost:8102/data
+Average: 0.24271579499933674
+Timings: [0.24495556100009708, 0.2526484519985388, 0.23054337199937436]
+Checking http://localhost:8103/data
+Average: 0.25248815933446167
+Timings: [0.25919191900175065, 0.2413476450019516, 0.25692491399968276]
+Checking http://localhost:8104/data
+Average: 0.24734792766685132
+Timings: [0.2693825160022243, 0.24649172099816496, 0.2261695460001647]
+Checking http://localhost:8105/data
+Average: 0.2456523129985726
+Timings: [0.26370377499915776, 0.2273315120000916, 0.24592165199646843]
+Checking http://localhost:8106/data
+Average: 0.24210689533235077
+Timings: [0.26894589699804783, 0.21857765299864695, 0.23879713600035757]
+Checking http://localhost:8107/data
+Average: 0.2351113026670646
+Timings: [0.2527544670010684, 0.2214626050008519, 0.23111683599927346]
+Checking http://localhost:8108/data
+Average: 0.34097923933222773
+Timings: [0.39432509600010235, 0.3378925779979909, 0.29072004399858997]
+Checking http://localhost:8109/data
+Average: 0.3210810686662929
+Timings: [0.30726524599958793, 0.37055543399765156, 0.2854225260016392]
+Checking http://localhost:8110/data
+Average: 0.1509053493330915
+Timings: [0.16917408899826114, 0.1430862680026621, 0.1404556909983512]
+Checking http://localhost:8111/data
+Average: 0.20303179466645815
+Timings: [0.1912486399996851, 0.22394528099903255, 0.1939014630006568]
+Checking http://localhost:8112/data
+Average: 0.21061507800065252
+Timings: [0.21572374300012598, 0.20388376499977312, 0.21223772600205848]
+```
+
+About 10% faster than the other fastest Python stacks, which is pretty good, and
+it got very close to Go's performance. Very promising stuff!
+
+But still not even close to Rust, and the framework is still very new, with
+missing features and not capable of handling list serialization (I had to force
+a dict being returned from the handler function).
